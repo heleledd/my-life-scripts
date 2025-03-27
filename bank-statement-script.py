@@ -15,19 +15,27 @@ class StarlingBankAPI:
             'Authorization': f'Bearer {token}'
         })
         
-        self._s.verify = cert_path
+        # self._s.verify = cert_path
         
         # make request to get accountUid
         response = self._s.get(base_url + '/api/v2/accounts')
         data = response.json()
-        self.accountUid = data['accounts']['accountUid']
+        self.accountUid = data['accounts'][0]['accountUid']
 
 def main():
     # Subtract one month from the current date
     # date format should be YYYY-MM-DD
-    current_date = datetime.now().strftime('%Y-%m-%d')
+    # Get the current date as a datetime object
+    current_date = datetime.now()
+
+    # Subtract one month from the current date
     one_month_ago = current_date - relativedelta(months=1)
-    logging.debug("One month ago:", one_month_ago.strftime('%Y-%m-%d'))
+
+    # Format the dates as strings if needed
+    current_date_str = current_date.strftime('%Y-%m-%d')
+    one_month_ago_str = one_month_ago.strftime('%Y-%m-%d')
+    
+    logging.debug("One month ago:", one_month_ago_str)
     
     # GET bank statement for past month from starling bank using their api
     url = base_url + '/api/v2/accounts/{{accountUid}}/statement/downloadForDateRange'
@@ -57,4 +65,6 @@ if __name__ == "__main__":
     email_address = getenv('EMAIL_ADDRESS')
     
     bank_api = StarlingBankAPI(token, cert_path)
+    
+    main()
     
