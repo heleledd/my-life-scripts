@@ -1,3 +1,5 @@
 venv
 .env
 certs
+credentials.json
+starling-prod-api-certificate
