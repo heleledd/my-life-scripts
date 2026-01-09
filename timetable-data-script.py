@@ -19,7 +19,6 @@ def get_data(token):
     url = national_rail_link + '/api/staticfeeds/3.0/timetable'
     headers = {'X-Auth-Token': token}
     response = requests.get(url, headers=headers)
-    
 
     # Get the current date
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
